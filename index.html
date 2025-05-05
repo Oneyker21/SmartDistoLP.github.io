@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DistroSmart - La solución digital para optimizar la gestión de ventas, inventarios y logística para distribuidoras">
+    <title>DistroSmart - Solución Digital para Distribuidoras</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <button class="about-us-btn" onclick="toggleModal()">¿Quienes Somos?</button>
+        </nav>
+        <div class="container">
+           
+            <h1>¡Transforma tu Distribuidora con DistroSmart!</h1>
+            <p>La solución digital que optimiza la gestión de ventas, inventarios y logística para pequeñas y medianas distribuidoras.</p>
+            <a href="#contact" class="cta-button">¡Prueba DistroSmart Gratis!</a>
+        </div>
+    </header>
+
+    <!-- Modal Quienes Somos -->
+    <div id="aboutUsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal()">&times;</span>
+            <h2>LegendsCode</h2>
+            <p>Somos una startup innovadora especializada en el desarrollo de soluciones tecnológicas de vanguardia. En LegendsCode, nos dedicamos a transformar ideas en realidad digital, creando software que impulsa el éxito de nuestros clientes.</p>
+            <p>Nuestra misión es democratizar la tecnología, haciéndola accesible y efectiva para empresas de todos los tamaños.</p>
+        </div>
+    </div>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <h2>¿Qué es DistroSmart?</h2>
+                <p>DistroSmart es una Progressive Web App (PWA) diseñada para ayudar a las distribuidoras PYMEs a digitalizar sus procesos operativos. Con una interfaz intuitiva y funcionalidades clave, DistroSmart mejora la eficiencia, reduce costos y potencia decisiones basadas en datos en tiempo real.</p>
+            </div>
+        </section>
+
+        <section id="benefits">
+            <div class="container">
+                <h2>Beneficios Clave</h2>
+                <ul>
+                    <li>
+                        <strong>Optimización de Inventarios</strong>
+                        <p>Controla y gestiona tu inventario de manera eficiente.</p>
+                    </li>
+                    <li>
+                        <strong>Gestión de Ventas Simplificada</strong>
+                        <p>Registra pedidos y procesa pagos de forma rápida.</p>
+                    </li>
+                    <li>
+                        <strong>Dashboards Interactivos</strong>
+                        <p>Visualiza KPIs clave en tiempo real.</p>
+                    </li>
+                    <li>
+                        <strong>Automatización de Reportes</strong>
+                        <p>Genera reportes automáticos de ventas y logística.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="container">
+                <h2>Testimonios</h2>
+                <blockquote>
+                    <p>"DistroSmart ha transformado la manera en que gestionamos nuestro inventario. ¡Es una herramienta indispensable!"</p>
+                    <footer>- Juan Pérez, Administrador de Distribuidora XYZ</footer>
+                </blockquote>
+                <blockquote>
+                    <p>"La automatización de reportes nos ha permitido tomar decisiones más rápidas y efectivas."</p>
+                    <footer>- María López, Gerente de Ventas en Distribuidora ABC</footer>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Contacto</h2>
+                <p>¿Tienes preguntas? Contáctanos:</p>
+                <p>Email: contacto@distro-smart.com</p>
+                <p>Teléfono: +505 1234 5678</p>
+                <a href="mailto:contacto@distro-smart.com" class="cta-button">Enviar un Email</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p> 2024 DistroSmart. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('aboutUsModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('aboutUsModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
