@@ -179,8 +179,24 @@
             const msg = input.value.trim();
             if (!msg) return;
 
+            // Mostrar mensaje del usuario
             chat.innerHTML += `<div class="help-modal__message-user"><strong>Tú:</strong> ${msg}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
 
+            // Mostrar animación de escritura
+            chat.innerHTML += `
+                <div class="help-modal__typing">
+                    <div class="help-modal__typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+
+            // Procesar respuesta
             const normalMsg = normalizar(msg);
             let mejorCoincidencia = "";
             let mejorPuntaje = 0;
@@ -198,9 +214,18 @@
                 respuesta = respuestas[mejorCoincidencia];
             }
 
-            chat.innerHTML += `<div class="help-modal__message-bot"><strong>DistroSmart:</strong> ${respuesta}</div>`;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            // Esperar 2 segundos y mostrar la respuesta
+            setTimeout(() => {
+                // Remover la animación de escritura
+                const typingElement = chat.querySelector('.help-modal__typing');
+                if (typingElement) {
+                    typingElement.remove();
+                }
+
+                // Mostrar la respuesta
+                chat.innerHTML += `<div class="help-modal__message-bot"><strong>DistroSmart:</strong> ${respuesta}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 2000);
         }
 
         function sendPredefinedQuestion(question) {
