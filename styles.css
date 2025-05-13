@@ -215,6 +215,7 @@ footer {
     font-size: 0.9em;
 }
 
+/* Estilos base del Modal */
 .modal {
     display: none;
     position: fixed;
@@ -224,6 +225,10 @@ footer {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+}
+
+.modal.show {
+    display: block;
 }
 
 .modal-content {
@@ -273,6 +278,144 @@ footer {
 
 .close-modal:hover {
     color: var(--accent-color);
+}
+
+/* Estilos del Chat Modal */
+.help-modal__content {
+    background-color: var(--white);
+    margin: 5% auto; 
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;  
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.help-modal__chat { 
+    height: 250px; 
+    overflow-y: auto; 
+    border: 1px solid #eee; 
+    padding: 15px; 
+    margin-bottom: 15px; 
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.help-modal__message-user,
+.help-modal__message-bot { 
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 15px;
+    max-width: 80%;
+    display: inline-block;
+}
+
+.help-modal__message-user { 
+    text-align: right; 
+    margin-left: auto;
+    background: var(--primary-color);
+    color: var(--white);
+    float: right;
+    clear: both;
+}
+
+.help-modal__message-bot { 
+    text-align: left; 
+    background: #e9ecef;
+    color: #333;
+    float: left;
+    clear: both;
+}
+
+.help-modal__questions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px 0;
+}
+
+.help-modal__quick-btn {
+    background: #f0f2f5;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+    text-align: center;
+    min-width: calc(50% - 10px);
+    max-width: calc(50% - 10px);
+}
+
+.help-modal__quick-btn:hover {
+    background: #e3e6ea;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.help-modal__input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.help-modal__input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    transition: border-color 0.3s ease;
+}
+
+.help-modal__input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.help-modal__send-btn {
+    flex-shrink: 0;
+    padding: 12px 25px;
+    font-size: 16px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.help-modal__send-btn:hover {
+    background: var(--primary-color);
+}
+
+.help-modal__title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.help-modal__close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s ease;
+    padding: 5px;
+    line-height: 1;
+}
+
+.help-modal__close:hover {
+    color: #333;
 }
 
 @media (max-width: 768px) {

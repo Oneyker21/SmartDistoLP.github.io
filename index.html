@@ -12,6 +12,7 @@
     <header>
         <nav class="top-nav">
             <button class="about-us-btn" onclick="toggleModal()">¿Quienes Somos?</button>
+            <button class="about-us-btn" onclick="toggleHelpModal()">Ayuda</button>
         </nav>
         <div class="container">
            
@@ -28,6 +29,25 @@
             <h2>LegendsCode</h2>
             <p>Somos una startup innovadora especializada en el desarrollo de soluciones tecnológicas de vanguardia. En LegendsCode, nos dedicamos a transformar ideas en realidad digital, creando software que impulsa el éxito de nuestros clientes.</p>
             <p>Nuestra misión es democratizar la tecnología, haciéndola accesible y efectiva para empresas de todos los tamaños.</p>
+        </div>
+    </div>
+
+    <!-- Modal Ayuda -->
+    <div id="helpModal" class="modal help-modal">
+        <div class="modal-content help-modal__content">
+            <span class="modal-close help-modal__close" onclick="toggleHelpModal()">&times;</span>
+            <h2 class="help-modal__title">Asistente DistroSmart</h2>
+            <div class="chat-box help-modal__chat" id="chat"></div>
+            <div class="quick-questions help-modal__questions">
+                <button onclick="sendPredefinedQuestion('qué es distrosmart')" class="quick-btn help-modal__quick-btn">¿Qué es DistroSmart?</button>
+                <button onclick="sendPredefinedQuestion('cómo iniciar sesión')" class="quick-btn help-modal__quick-btn">¿Cómo iniciar sesión?</button>
+                <button onclick="sendPredefinedQuestion('qué se puede hacer con los productos')" class="quick-btn help-modal__quick-btn">¿Qué hacer con productos?</button>
+                <button onclick="sendPredefinedQuestion('hay alertas de inventario')" class="quick-btn help-modal__quick-btn">¿Hay alertas?</button>
+            </div>
+            <div class="chat-input help-modal__input-group">
+                <input type="text" id="input" class="help-modal__input" placeholder="Escribe tu pregunta..." />
+                <button onclick="sendMessage()" class="help-modal__send-btn">Enviar</button>
+            </div>
         </div>
     </div>
 
@@ -90,22 +110,108 @@
 
     <footer>
         <div class="container">
-            <p> 2024 DistroSmart. Todos los derechos reservados.</p>
+            <p>&copy; 2024 DistroSmart. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script>
         function toggleModal() {
-            const modal = document.getElementById('aboutUsModal');
-            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+            document.getElementById('aboutUsModal').classList.toggle('show');
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('aboutUsModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+        function toggleHelpModal() {
+            const helpModal = document.getElementById('helpModal');
+            helpModal.classList.toggle('show');
+            
+            // Si el modal se está cerrando (ya no tiene la clase 'show')
+            if (!helpModal.classList.contains('show')) {
+                // Limpiar el chat y el input
+                document.getElementById('chat').innerHTML = '';
+                document.getElementById('input').value = '';
             }
         }
+
+        // Cerrar modales al hacer clic fuera de ellos
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+                // Si es el modal de ayuda, limpiar el chat
+                if (event.target.id === 'helpModal') {
+                    document.getElementById('chat').innerHTML = '';
+                    document.getElementById('input').value = '';
+                }
+            }
+        }
+
+        const respuestas = {
+            "qué es distrosmart": "Es una plataforma digital para optimizar ventas, inventarios y logística en distribuidoras PYMEs.",
+            "quiénes pueden usar distrosmart": "Administradores, empleados de atención al cliente y de caja, cada uno con funciones específicas.",
+            "cómo iniciar sesión": "Debes registrarte con tus credenciales y rol. Se usa Firebase Authentication para validar.",
+            "qué se puede hacer con los productos": "Puedes agregarlos, editarlos, eliminarlos y verlos en la app.",
+            "cómo registrar un pedido": "El empleado de atención al cliente llena un formulario, y lo envía a caja con un código único.",
+            "cómo se generan los reportes": "Se generan automáticamente cada día y se pueden exportar en PDF.",
+            "qué tecnologías usa distrosmart": "React, Vite, Firebase, y Python para análisis de datos.",
+            "hay alertas de inventario": "Sí. Recibes alertas si el stock es bajo o si los productos están por vencer.",
+            "cómo capacitar al personal": "Incluye tutoriales y guías interactivas organizadas por rol.",
+            "cómo reporto un error": "Puedes enviar un formulario de incidencia desde la app."
+        };
+
+        function normalizar(texto) {
+            return texto
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f?¿.,;:]/g, "")
+                .trim();
+        }
+
+        function similaridad(str1, str2) {
+            const s1 = normalizar(str1);
+            const s2 = normalizar(str2);
+            const palabras1 = s1.split(" ");
+            const palabras2 = s2.split(" ");
+            const comunes = palabras1.filter(p => palabras2.includes(p));
+            return comunes.length / Math.max(palabras1.length, palabras2.length);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('input');
+            const chat = document.getElementById('chat');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            chat.innerHTML += `<div class="help-modal__message-user"><strong>Tú:</strong> ${msg}</div>`;
+
+            const normalMsg = normalizar(msg);
+            let mejorCoincidencia = "";
+            let mejorPuntaje = 0;
+
+            for (let pregunta in respuestas) {
+                const puntaje = similaridad(normalMsg, pregunta);
+                if (puntaje > mejorPuntaje) {
+                    mejorPuntaje = puntaje;
+                    mejorCoincidencia = pregunta;
+                }
+            }
+
+            let respuesta = "Lo siento, no tengo una respuesta para eso.";
+            if (mejorPuntaje > 0.4) {
+                respuesta = respuestas[mejorCoincidencia];
+            }
+
+            chat.innerHTML += `<div class="help-modal__message-bot"><strong>DistroSmart:</strong> ${respuesta}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function sendPredefinedQuestion(question) {
+            const input = document.getElementById('input');
+            input.value = question;
+            sendMessage();
+        }
+
+        document.getElementById("input").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
     </script>
 </body>
 </html>
